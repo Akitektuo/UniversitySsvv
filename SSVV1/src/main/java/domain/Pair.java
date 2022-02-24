@@ -2,33 +2,41 @@ package domain;
 
 import java.util.Objects;
 
-public class Pair<E, F> {
-    private E object1;
-    private F object2;
+public class Pair<T, V> {
+    private T first;
+    private V second;
 
-    public Pair(E object1, F object2) {
-        this.object1 = object1;
-        this.object2 = object2;
+    public Pair(T first, V second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public E getObject1() {
-        return object1;
+    public void setFirst(T first) {
+        this.first = first;
     }
 
-    public F getObject2() {
-        return object2;
+    public T getFirst() {
+        return first;
+    }
+
+    public void setSecond(V second) {
+        this.second = second;
+    }
+
+    public V getSecond() {
+        return second;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pair<E, F> pair = (Pair<E, F>) o;
-        return Objects.equals(object1, pair.object1) && Objects.equals(object2, pair.object2);
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Pair)) return false;
+        var pair = (Pair<T, V>) other;
+        return first.equals(pair.first) && second.equals(pair.second);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(object1, object2);
+        return Objects.hash(first, second);
     }
 }

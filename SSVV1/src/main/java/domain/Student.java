@@ -3,54 +3,59 @@ package domain;
 import java.util.Objects;
 
 public class Student implements HasID<String> {
-    private String idStudent;
-    private String nume;
-    private int grupa;
+    private String id;
+    private String name;
+    private int group;
 
-    public Student(String idStudent, String nume, int grupa) {
-        this.idStudent = idStudent;
-        this.nume = nume;
-        this.grupa = grupa;
+    public Student(String id, String name, int group) {
+        this.id = id;
+        this.name = name;
+        this.group = group;
     }
 
     @Override
-    public String getID() { return idStudent; }
+    public String getID() { return id; }
 
     @Override
-    public void setID(String idStudent) { this.idStudent = idStudent; }
+    public void setID(String id) { this.id = id; }
 
-    public String getNume() {
-        return nume;
+    public String getName() {
+        return name;
     }
 
-    public void setNume(String nume) {
-        this.nume = nume;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getGrupa() {
-        return grupa;
+    public int getGroup() {
+        return group;
     }
 
-    public void setGrupa(int grupa) {
-        this.grupa = grupa;
+    public void setGroup(int group) {
+        this.group = group;
     }
 
     @Override
     public String toString() {
-        return "Student{" + "idStudent=" + idStudent + ", nume='" + nume + '\'' + ", grupa=" + grupa + '\'' + '}';
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", group=" + group +
+                '}';
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return Objects.equals(idStudent, student.idStudent);
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Student)) return false;
+
+        var student = (Student) other;
+        return id.equals(student.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idStudent);
+        return Objects.hash(id);
     }
 }
 

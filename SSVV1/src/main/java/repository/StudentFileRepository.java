@@ -8,48 +8,46 @@ import java.util.stream.Collectors;
 
 public class StudentFileRepository extends AbstractFileRepository<String, Student> {
 
-    public StudentFileRepository(Validator<Student> validator, String filename) {
-        super(validator, filename);
+    public StudentFileRepository(Validator<Student> validator, String fileName) {
+        super(validator, fileName);
         loadFromFile();
     }
 
     protected void loadFromFile() {
-        try (BufferedReader buffer = new BufferedReader(new FileReader(filename))) {
+        try (var buffer = new BufferedReader(new FileReader(fileName))) {
             buffer.lines().collect(Collectors.toList()).forEach(line -> {
-                String[] result = line.split("#");
-                Student student = new Student(result[0], result[1], Integer.parseInt(result[2]));
+                var result = line.split("#");
+                var student = new Student(result[0], result[1], Integer.parseInt(result[2]));
                 try {
                     super.save(student);
-                } catch (ValidationException ve) {
-                    ve.printStackTrace();
+                } catch (ValidationException exception) {
+                    exception.printStackTrace();
                 }
             });
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
     protected void writeToFile(Student student) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
-            bw.write(student.getID() + "#" + student.getNume() + "#" + student.getGrupa() + "\n");
-        }
-        catch(IOException ioe) {
-            ioe.printStackTrace();
+        try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(student.getID() + "#" + student.getName() + "#" + student.getGroup() + "\n");
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
-    protected void writeToFileAll() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) {
-            super.entities.values().forEach(student -> {
+    protected void writeAllToFile() {
+        try (var writer = new BufferedWriter(new FileWriter(fileName, false))) {
+            entities.values().forEach(student -> {
                 try {
-                    bw.write(student.getID() + "#" + student.getNume() + "#" + student.getGrupa() + "\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    writer.write(student.getID() + "#" + student.getName() + "#" + student.getGroup() + "\n");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
                 }
             });
-        }
-        catch(IOException ioe) {
-            ioe.printStackTrace();
+        } catch(IOException exception) {
+            exception.printStackTrace();
         }
     }
 }

@@ -10,19 +10,18 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
     Map<ID, E> entities;
     Validator<E> validator;
 
-    public AbstractCRUDRepository(Validator validator) {
-        entities = new HashMap<ID, E>();
+    public AbstractCRUDRepository(Validator<E> validator) {
+        entities = new HashMap<>();
         this.validator = validator;
     }
 
     @Override
     public E findOne(ID id) {
         if (id == null) {
-            throw new IllegalArgumentException("ID-ul nu poate fi null! \n");
+            throw new IllegalArgumentException("ID cannot be null!\n");
         }
-        else {
-            return entities.get(id);
-        }
+
+        return entities.get(id);
     }
 
     @Override
@@ -33,9 +32,8 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
         try {
             validator.validate(entity);
             return entities.putIfAbsent(entity.getID(), entity);
-        }
-        catch (ValidationException ve) {
-            System.out.println("Entitatea nu este valida! \n");
+        } catch (ValidationException exception) {
+            System.out.println("Invalid entity!\n");
             return null;
         }
     }
@@ -43,11 +41,10 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
     @Override
     public E delete(ID id) {
         if (id == null) {
-            throw new IllegalArgumentException("ID-ul nu poate fi nul! \n");
+            throw new IllegalArgumentException("ID cannot be null!\n");
         }
-        else {
-            return entities.remove(id);
-        }
+
+        return entities.remove(id);
     }
 
     @Override
@@ -55,9 +52,8 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
         try {
             validator.validate(entity);
             return entities.replace(entity.getID(), entity);
-        }
-        catch (ValidationException ve) {
-            System.out.println("Entitatea nu este valida! \n");
+        } catch (ValidationException exception) {
+            System.out.println("Invalid entity!\n");
             return null;
         }
     }

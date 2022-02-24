@@ -1,81 +1,72 @@
 package repository;
 
-import domain.Nota;
+import domain.Grade;
 import domain.Pair;
 import domain.Student;
-import domain.Tema;
 import validation.StudentValidator;
-import validation.TemaValidator;
-import validation.ValidationException;
+import validation.AssignmentValidator;
 import validation.Validator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class NotaXMLRepository extends AbstractXMLRepository<Pair<String, String>, Nota> {
+public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, String>, Grade> {
 
-    public NotaXMLRepository(Validator<Nota> validator, String XMLfilename) {
-        super(validator, XMLfilename);
+    public GradeXmlRepository(Validator<Grade> validator, String xmlFileName) {
+        super(validator, xmlFileName);
         loadFromXmlFile();
     }
 
-    protected Element getElementFromEntity(Nota nota, Document XMLdocument) {
-        Element element = XMLdocument.createElement("nota");
-        element.setAttribute("IDStudent", nota.getID().getObject1());
-        element.setAttribute("IDTema", nota.getID().getObject2());
+    protected Element getElementFromEntity(Grade grade, Document xmlDocument) {
+        var element = xmlDocument.createElement("nota");
+        element.setAttribute("IDStudent", grade.getID().getFirst());
+        element.setAttribute("IDTema", grade.getID().getSecond());
 
-        element.appendChild(createElement(XMLdocument, "Nota", String.valueOf(nota.getNota())));
-        element.appendChild(createElement(XMLdocument, "SaptamanaPredare", String.valueOf(nota.getSaptamanaPredare())));
-        element.appendChild(createElement(XMLdocument, "Feedback", nota.getFeedback()));
+        element.appendChild(createElement(xmlDocument, "Nota", String.valueOf(grade.getGrade())));
+        element.appendChild(createElement(xmlDocument, "SaptamanaPredare", String.valueOf(grade.getWeekDeadline())));
+        element.appendChild(createElement(xmlDocument, "Feedback", grade.getFeedback()));
 
         return element;
     }
 
-    protected Nota getEntityFromNode(Element node) {
-        String IDStudent = node.getAttributeNode("IDStudent").getValue();
-        String IDTema= node.getAttributeNode("IDTema").getValue();
-        double nota = Double.parseDouble(node.getElementsByTagName("Nota").item(0).getTextContent());
-        int saptamanaPredare = Integer.parseInt(node.getElementsByTagName("SaptamanaPredare").item(0).getTextContent());
-        String feedback = node.getElementsByTagName("Feedback").item(0).getTextContent();
+    protected Grade getEntityFromNode(Element node) {
+        var studentId = node.getAttributeNode("IDStudent").getValue();
+        var assignmentId= node.getAttributeNode("IDTema").getValue();
+        var grade = Double.parseDouble(node.getElementsByTagName("Nota").item(0).getTextContent());
+        var deadline = Integer.parseInt(node.getElementsByTagName("SaptamanaPredare").item(0).getTextContent());
+        var feedback = node.getElementsByTagName("Feedback").item(0).getTextContent();
 
-        return new Nota(new Pair(IDStudent, IDTema), nota, saptamanaPredare, feedback);
+        return new Grade(new Pair<>(studentId, assignmentId), grade, deadline, feedback);
     }
 
-    public void createFile(Nota notaObj) {
-        String idStudent = notaObj.getID().getObject1();
-        StudentValidator sval = new StudentValidator();
-        TemaValidator tval = new TemaValidator();
-        StudentFileRepository srepo = new StudentFileRepository(sval, "studenti.txt");
-        TemaFileRepository trepo = new TemaFileRepository(tval, "teme.txt");
+    public void createFile(Grade grade) {
+        var studentId = grade.getID().getFirst();
+        var studentValidator = new StudentValidator();
+        var assignmentValidator = new AssignmentValidator();
+        var studentRepository = new StudentFileRepository(studentValidator, "studenti.txt");
+        var assignmentRepository = new AssignmentFileRepository(assignmentValidator, "teme.txt");
 
-        Student student = srepo.findOne(idStudent);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(student.getNume() + ".txt", false))) {
-            super.findAll().forEach(nota -> {
-                if (nota.getID().getObject1().equals(idStudent)) {
-                    try {
-                        bw.write("Tema: " + nota.getID().getObject2() + "\n");
-                        bw.write("Nota: " + nota.getNota() + "\n");
-                        bw.write("Predata in saptamana: " + nota.getSaptamanaPredare() + "\n");
-                        bw.write("Deadline: " + trepo.findOne(nota.getID().getObject2()).getDeadline() + "\n");
-                        bw.write("Feedback: " + nota.getFeedback() + "\n\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        var student = studentRepository.findOne(studentId);
+        try (var writter = new BufferedWriter(new FileWriter(student.getName() + ".txt", false))) {
+            findAll().forEach(gradeElement -> {
+                if (!gradeElement.getID().getFirst().equals(studentId)) {
+                    return;
+                }
+                try {
+                    writter.write("Tema: " + gradeElement.getID().getSecond() + "\n");
+                    writter.write("Nota: " + gradeElement.getGrade() + "\n");
+                    writter.write("Predata in saptamana: " + gradeElement.getWeekDeadline() + "\n");
+                    writter.write("Deadline: " + assignmentRepository.findOne(gradeElement.getID().getSecond()).getDeadline() + "\n");
+                    writter.write("Feedback: " + gradeElement.getFeedback() + "\n\n");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
                 }
             });
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 }

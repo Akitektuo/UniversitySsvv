@@ -5,16 +5,16 @@ import validation.ValidationException;
 import validation.Validator;
 
 public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends AbstractCRUDRepository<ID,E>{
-    protected String filename;
+    protected String fileName;
 
-    public AbstractFileRepository(Validator<E> validator, String filename) {
+    public AbstractFileRepository(Validator<E> validator, String fileName) {
         super(validator);
-        this.filename = filename;
+        this.fileName = fileName;
     }
 
     protected abstract void loadFromFile();
     protected abstract void writeToFile(E entity);
-    protected abstract void writeToFileAll();
+    protected abstract void writeAllToFile();
 
     @Override
     public Iterable<E> findAll() {
@@ -24,25 +24,27 @@ public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends Ab
 
     @Override
     public E save(E entity) throws ValidationException {
-        E result = super.save(entity);
+        var result = super.save(entity);
+
         if (result == null) {
             writeToFile(entity);
         }
+
         return result;
     }
 
     @Override
     public E delete(ID id) {
-        E result = super.delete(id);
-        writeToFileAll();
+        var result = super.delete(id);
+        writeAllToFile();
 
         return result;
     }
 
     @Override
-    public E update(E newEntity) {
-        E result = super.update(newEntity);
-        writeToFileAll();
+    public E update(E entity) {
+        var result = super.update(entity);
+        writeAllToFile();
 
         return result;
     }
