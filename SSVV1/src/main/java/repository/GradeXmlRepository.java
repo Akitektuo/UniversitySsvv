@@ -2,8 +2,7 @@ package repository;
 
 import domain.Grade;
 import domain.Pair;
-import domain.Student;
-import validation.StudentValidator;
+import validation.OldStudentValidator;
 import validation.AssignmentValidator;
 import validation.Validator;
 import org.w3c.dom.Document;
@@ -22,8 +21,8 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
 
     protected Element getElementFromEntity(Grade grade, Document xmlDocument) {
         var element = xmlDocument.createElement("nota");
-        element.setAttribute("IDStudent", grade.getID().getFirst());
-        element.setAttribute("IDTema", grade.getID().getSecond());
+        element.setAttribute("IDStudent", grade.getId().getFirst());
+        element.setAttribute("IDTema", grade.getId().getSecond());
 
         element.appendChild(createElement(xmlDocument, "Nota", String.valueOf(grade.getGrade())));
         element.appendChild(createElement(xmlDocument, "SaptamanaPredare", String.valueOf(grade.getWeekDeadline())));
@@ -43,8 +42,8 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
     }
 
     public void createFile(Grade grade) {
-        var studentId = grade.getID().getFirst();
-        var studentValidator = new StudentValidator();
+        var studentId = grade.getId().getFirst();
+        var studentValidator = new OldStudentValidator();
         var assignmentValidator = new AssignmentValidator();
         var studentRepository = new StudentFileRepository(studentValidator, "studenti.txt");
         var assignmentRepository = new AssignmentFileRepository(assignmentValidator, "teme.txt");
@@ -52,14 +51,14 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
         var student = studentRepository.findOne(studentId);
         try (var writter = new BufferedWriter(new FileWriter(student.getName() + ".txt", false))) {
             findAll().forEach(gradeElement -> {
-                if (!gradeElement.getID().getFirst().equals(studentId)) {
+                if (!gradeElement.getId().getFirst().equals(studentId)) {
                     return;
                 }
                 try {
-                    writter.write("Tema: " + gradeElement.getID().getSecond() + "\n");
+                    writter.write("Tema: " + gradeElement.getId().getSecond() + "\n");
                     writter.write("Nota: " + gradeElement.getGrade() + "\n");
                     writter.write("Predata in saptamana: " + gradeElement.getWeekDeadline() + "\n");
-                    writter.write("Deadline: " + assignmentRepository.findOne(gradeElement.getID().getSecond()).getDeadline() + "\n");
+                    writter.write("Deadline: " + assignmentRepository.findOne(gradeElement.getId().getSecond()).getDeadline() + "\n");
                     writter.write("Feedback: " + gradeElement.getFeedback() + "\n\n");
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -71,7 +70,7 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
     }
 }
 //    public void createFile(Nota notaObj) {
-//        String idStudent = notaObj.getID().getObject1();
+//        String idStudent = notaObj.getId().getObject1();
 //        StudentValidator sval = new StudentValidator();
 //        TemaValidator tval = new TemaValidator();
 //        StudentXMLRepository srepo = new StudentXMLRepository(sval, "studenti.xml");
@@ -84,7 +83,7 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
 //            XMLdocument.appendChild(root);
 //
 //            super.findAll().forEach(nota -> {
-//                if (nota.getID().getObject1().equals(idStudent)) {
+//                if (nota.getId().getObject1().equals(idStudent)) {
 //                    try {
 //                        Document XMLstudent = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 //                        Element element = XMLstudent.createElement("nota");
@@ -94,7 +93,7 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
 //                        Node temaNode = XMLstudent.importNode(XMLdocument2, true);
 //                        Tema t = trepo.getEntityFromNode((Element) temaNode);
 //
-//                        element.appendChild(createElement(XMLstudent, "Tema", t.getID()));
+//                        element.appendChild(createElement(XMLstudent, "Tema", t.getId()));
 //                        element.appendChild(createElement(XMLstudent, "Nota", String.valueOf(nota.getNota())));
 //                        element.appendChild(createElement(XMLstudent, "SaptamanaPredare", String.valueOf(nota.getSaptamanaPredare())));
 //                        element.appendChild(createElement(XMLstudent, "Deadline", String.valueOf(t.getDeadline())));

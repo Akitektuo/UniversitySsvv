@@ -125,7 +125,7 @@ public class Service {
 
             if (currentWeek <= assignment.getDeadline()) {
                 var deadlineNou = assignment.getDeadline() + numberOfWeeks;
-                return updateAssignment(assignment.getID(), assignment.getDescription(), deadlineNou, assignment.getStartWeek());
+                return updateAssignment(assignment.getId(), assignment.getDescription(), deadlineNou, assignment.getStartWeek());
             }
         }
         return 0;

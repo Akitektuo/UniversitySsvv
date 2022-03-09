@@ -14,7 +14,7 @@ public class AssignmentXmlRepository extends AbstractXmlRepository<String, Assig
 
     protected Element getElementFromEntity(Assignment assignment, Document xmlDocument) {
         Element element = xmlDocument.createElement("tema");
-        element.setAttribute("ID", assignment.getID());
+        element.setAttribute("ID", assignment.getId());
 
         element.appendChild(createElement(xmlDocument, "Descriere", assignment.getDescription()));
         element.appendChild(createElement(xmlDocument, "Deadline", String.valueOf(assignment.getDeadline())));

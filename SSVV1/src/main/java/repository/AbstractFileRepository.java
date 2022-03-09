@@ -4,7 +4,7 @@ import domain.HasID;
 import validation.ValidationException;
 import validation.Validator;
 
-public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends AbstractCRUDRepository<ID,E>{
+public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends OldAbstractCRUDRepository<ID,E> {
     protected String fileName;
 
     public AbstractFileRepository(Validator<E> validator, String fileName) {

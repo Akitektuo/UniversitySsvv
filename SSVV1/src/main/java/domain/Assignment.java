@@ -16,10 +16,10 @@ public class Assignment implements HasID<String> {
     }
 
     @Override
-    public String getID() { return id; }
+    public String getId() { return id; }
 
     @Override
-    public void setID(String id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
 
     public String getDescription() { return description; }
 

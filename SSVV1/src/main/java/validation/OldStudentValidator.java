@@ -1,9 +1,9 @@
 package validation;
 import domain.Student;
 
-public class StudentValidator implements Validator<Student> {
+public class OldStudentValidator implements Validator<Student> {
     public void validate(Student student) throws ValidationException {
-        if (student.getID() == null || student.getID().isEmpty()) {
+        if (student.getId() == null || student.getId().isEmpty()) {
             throw new ValidationException("Invalid ID!\n");
         }
         if (student.getName() == null || student.getName().isEmpty()) {

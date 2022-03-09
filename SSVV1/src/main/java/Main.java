@@ -6,7 +6,7 @@ import validation.*;
 
 public class Main {
     public static void main(String[] args) {
-        Validator<Student> studentValidator = new StudentValidator();
+        Validator<Student> studentValidator = new OldStudentValidator();
         Validator<Assignment> temaValidator = new AssignmentValidator();
         Validator<Grade> notaValidator = new GradeValidator();
 

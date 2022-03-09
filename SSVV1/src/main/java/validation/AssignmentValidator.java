@@ -3,7 +3,7 @@ import domain.Assignment;
 
 public class AssignmentValidator implements Validator<Assignment> {
     public void validate(Assignment assignment) throws ValidationException {
-        if (assignment.getID() == null || assignment.getID().isEmpty()) {
+        if (assignment.getId() == null || assignment.getId().isEmpty()) {
             throw new ValidationException("Invalid ID!\n");
         }
         if (assignment.getDescription() == null || assignment.getDescription().isEmpty()) {

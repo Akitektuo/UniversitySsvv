@@ -1,7 +1,7 @@
 package repository;
 import validation.*;
 
-public interface CRUDRepository<ID, E> {
+public interface OldCRUDRepository<ID, E> {
     /**
      * @param id - the id of the entity to be returned; id must not be null
      * @return the entity with the specified id or null - if there is no entity with the given id

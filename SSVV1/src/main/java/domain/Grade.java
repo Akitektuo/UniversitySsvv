@@ -14,10 +14,10 @@ public class Grade implements HasID<Pair<String, String>> {
     }
 
     @Override
-    public Pair<String, String> getID() { return id; }
+    public Pair<String, String> getId() { return id; }
 
     @Override
-    public void setID(Pair<String, String> id) { this.id = id; }
+    public void setId(Pair<String, String> id) { this.id = id; }
 
     public double getGrade() { return grade; }
 

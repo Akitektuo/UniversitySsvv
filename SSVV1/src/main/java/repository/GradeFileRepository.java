@@ -36,7 +36,7 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
 
     protected void writeToFile(Grade grade) {
         try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(grade.getID().getFirst() + "#" + grade.getID().getSecond() + "#" + grade.getGrade() + "#"
+            writer.write(grade.getId().getFirst() + "#" + grade.getId().getSecond() + "#" + grade.getGrade() + "#"
                     + grade.getWeekDeadline() + "#" + grade.getFeedback() + "\n");
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -47,7 +47,7 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
             entities.values().forEach(grade -> {
                 try {
-                    writer.write(grade.getID().getFirst() + "#" + grade.getID().getSecond() + "#" + grade.getGrade()
+                    writer.write(grade.getId().getFirst() + "#" + grade.getId().getSecond() + "#" + grade.getGrade()
                             + "#" + grade.getWeekDeadline() + "#" + grade.getFeedback() + "\n");
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -59,7 +59,7 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
     }
 
 //    protected void createFile(Nota notaObj) {
-//        String idStudent = notaObj.getID().getObject1();
+//        String idStudent = notaObj.getId().getObject1();
 //        StudentValidator sval = new StudentValidator();
 //        TemaValidator tval = new TemaValidator();
 //        StudentXMLRepository srepo = new StudentXMLRepository(sval, "studenti.txt");
@@ -68,12 +68,12 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
 //        Student student = srepo.findOne(idStudent);
 //        try (BufferedWriter bw = new BufferedWriter(new FileWriter(student.getNume() + ".txt", false))) {
 //            super.findAll().forEach(nota -> {
-//                if (nota.getID().getObject1().equals(idStudent)) {
+//                if (nota.getId().getObject1().equals(idStudent)) {
 //                    try {
-//                        bw.write("Tema: " + nota.getID().getObject2() + "\n");
+//                        bw.write("Tema: " + nota.getId().getObject2() + "\n");
 //                        bw.write("Nota: " + nota.getNota() + "\n");
 //                        bw.write("Predata in saptamana: " + nota.getSaptamanaPredare() + "\n");
-//                        bw.write("Deadline: " + trepo.findOne(nota.getID().getObject2()).getDeadline() + "\n");
+//                        bw.write("Deadline: " + trepo.findOne(nota.getId().getObject2()).getDeadline() + "\n");
 //                        bw.write("Feedback: " + nota.getFeedback() + "\n\n");
 //                    } catch (IOException e) {
 //                        e.printStackTrace();

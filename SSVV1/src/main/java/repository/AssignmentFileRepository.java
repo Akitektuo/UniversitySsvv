@@ -31,7 +31,7 @@ public class AssignmentFileRepository extends AbstractFileRepository<String, Ass
 
     protected void writeToFile(Assignment assignment) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
-            bw.write(assignment.getID() + "#" + assignment.getDescription() + "#" + assignment.getDeadline() + "#" + assignment.getStartWeek() + "\n");
+            bw.write(assignment.getId() + "#" + assignment.getDescription() + "#" + assignment.getDeadline() + "#" + assignment.getStartWeek() + "\n");
         }
         catch(IOException ioe) {
             ioe.printStackTrace();
@@ -42,7 +42,7 @@ public class AssignmentFileRepository extends AbstractFileRepository<String, Ass
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, false))) {
             super.entities.values().forEach(tema -> {
                 try {
-                    bw.write(tema.getID() + "#" + tema.getDescription() + "#" + tema.getDeadline() + "#" + tema.getStartWeek() + "\n");
+                    bw.write(tema.getId() + "#" + tema.getDescription() + "#" + tema.getDeadline() + "#" + tema.getStartWeek() + "\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -13,7 +13,7 @@ public class StudentXmlRepository extends AbstractXmlRepository<String, Student>
 
     protected Element getElementFromEntity(Student student, Document xmlDocument) {
         var element = xmlDocument.createElement("student");
-        element.setAttribute("ID", student.getID());
+        element.setAttribute("ID", student.getId());
 
         element.appendChild(createElement(xmlDocument, "Nume", student.getName()));
         element.appendChild(createElement(xmlDocument, "Grupa", String.valueOf(student.getGroup())));

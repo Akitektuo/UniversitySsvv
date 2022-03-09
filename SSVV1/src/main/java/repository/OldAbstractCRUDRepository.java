@@ -6,11 +6,11 @@ import validation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements CRUDRepository<ID, E>{
+public abstract class OldAbstractCRUDRepository<ID, E extends HasID<ID>> implements OldCRUDRepository<ID, E> {
     Map<ID, E> entities;
     Validator<E> validator;
 
-    public AbstractCRUDRepository(Validator<E> validator) {
+    public OldAbstractCRUDRepository(Validator<E> validator) {
         entities = new HashMap<>();
         this.validator = validator;
     }
@@ -29,13 +29,8 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
 
     @Override
     public E save(E entity) throws ValidationException {
-        try {
-            validator.validate(entity);
-            return entities.putIfAbsent(entity.getID(), entity);
-        } catch (ValidationException exception) {
-            System.out.println("Invalid entity!\n");
-            return null;
-        }
+        validator.validate(entity);
+        return entities.putIfAbsent(entity.getId(), entity);
     }
 
     @Override
@@ -51,7 +46,7 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
     public E update(E entity) {
         try {
             validator.validate(entity);
-            return entities.replace(entity.getID(), entity);
+            return entities.replace(entity.getId(), entity);
         } catch (ValidationException exception) {
             System.out.println("Invalid entity!\n");
             return null;

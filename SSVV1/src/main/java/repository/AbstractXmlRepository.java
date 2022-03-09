@@ -5,8 +5,6 @@ import validation.ValidationException;
 import validation.Validator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 
-public abstract class AbstractXmlRepository<ID, E extends HasID<ID>> extends AbstractCRUDRepository<ID, E> {
+public abstract class AbstractXmlRepository<ID, E extends HasID<ID>> extends OldAbstractCRUDRepository<ID, E> {
     protected String xmlFileName;
 
     public AbstractXmlRepository(Validator<E> validator, String xmlFileName) {

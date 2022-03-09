@@ -31,7 +31,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
 
     protected void writeToFile(Student student) {
         try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(student.getID() + "#" + student.getName() + "#" + student.getGroup() + "\n");
+            writer.write(student.getId() + "#" + student.getName() + "#" + student.getGroup() + "\n");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
         try (var writer = new BufferedWriter(new FileWriter(fileName, false))) {
             entities.values().forEach(student -> {
                 try {
-                    writer.write(student.getID() + "#" + student.getName() + "#" + student.getGroup() + "\n");
+                    writer.write(student.getId() + "#" + student.getName() + "#" + student.getGroup() + "\n");
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }

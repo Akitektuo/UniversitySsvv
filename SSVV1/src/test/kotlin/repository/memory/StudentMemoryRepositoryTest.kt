@@ -2,15 +2,14 @@ package repository.memory
 
 import domain.Student
 import org.junit.jupiter.api.TestInstance
-import repository.StudentRepository
-import validation.StudentValidator
+import repository.StudentMemoryRepository
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 internal class StudentMemoryRepositoryTest {
-    private val studentValidator = StudentValidator()
-    private val studentRepository = StudentRepository(studentValidator)
+    private val studentRepository = StudentMemoryRepository()
 
     @Test
     fun saveStudent_emptyId_throwsException() {
@@ -38,5 +37,24 @@ internal class StudentMemoryRepositoryTest {
         assertFails {
             studentRepository.save(student)
         }
+    }
+
+    @Test
+    fun saveStudent_groupNotValid_throwsException() {
+        val student = Student("jhgh", "hjsgd", 148)
+
+        assertFails {
+            studentRepository.save(student)
+        }
+    }
+
+    @Test
+    fun saveStudent_fieldsValid_studentAdded() {
+        val student = Student("jhgh", "hjsgd", 932)
+
+        studentRepository.save(student)
+        val savedStudent = studentRepository.findAll().last()
+
+        assertEquals(student, savedStudent, "The same student was expected")
     }
 }
