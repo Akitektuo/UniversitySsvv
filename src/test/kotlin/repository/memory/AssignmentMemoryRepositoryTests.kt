@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import repository.AssignmentRepository
 import validation.AssignmentValidator
+import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -73,5 +74,15 @@ internal class AssignmentMemoryRepositoryTests {
         assertFails {
             assignmentRepository.save(assignment)
         }
+    }
+
+    @Test
+    fun saveAssignment_validData_savesSameAssignment() {
+        val assignment = Assignment("someId", "some description", 10, 8)
+
+        assignmentRepository.save(assignment)
+        val savedAssignment = assignmentRepository.findAll().last()
+
+        assertEquals(assignment, savedAssignment, "The same student was expected")
     }
 }
