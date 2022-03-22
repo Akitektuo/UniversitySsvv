@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-internal class StudentMemoryRepositoryTest {
+internal class StudentMemoryRepositoryTests {
     private val studentRepository = StudentMemoryRepository()
 
     @Test
