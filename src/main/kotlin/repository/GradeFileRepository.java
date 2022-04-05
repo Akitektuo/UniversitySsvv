@@ -16,10 +16,10 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
     }
 
     protected void loadFromFile() {
-        try (var buffer = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             buffer.lines().collect(Collectors.toList()).forEach(line -> {
-                var result = line.split("#");
-                var grade = new Grade(new Pair(result[0], result[1]),
+                String[] result = line.split("#");
+                Grade grade = new Grade(new Pair(result[0], result[1]),
                         Double.parseDouble(result[2]),
                         Integer.parseInt(result[3]),
                         result[4]);
@@ -35,7 +35,7 @@ public class GradeFileRepository extends AbstractFileRepository<Pair<String, Str
     }
 
     protected void writeToFile(Grade grade) {
-        try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write(grade.getId().getFirst() + "#" + grade.getId().getSecond() + "#" + grade.getGrade() + "#"
                     + grade.getWeekDeadline() + "#" + grade.getFeedback() + "\n");
         } catch (IOException exception) {

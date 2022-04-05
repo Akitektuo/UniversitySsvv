@@ -1,5 +1,8 @@
 package console;
 
+import domain.Assignment;
+import domain.Grade;
+import domain.Student;
 import service.Service;
 
 import java.util.Scanner;
@@ -12,53 +15,52 @@ public class UI {
     }
 
     public void printMenu() {
-        System.out.println("""
-                11. Display all students.
-                12. Display all assignments.
-                13. Display all grades.
-                
-                21. Add new student.
-                22. Add new assignment.
-                23. Set student's grade for an assignment.
-                
-                31. Remove an existing student.
-                32. Remove an existing assignment.
-                
-                4. Update a student.
-                5. Extend assignment deadline.
-                0. Exit
-                """);
+        System.out.println(
+                "11. Display all students.\n" +
+                        "12. Display all assignments.\n" +
+                        "13. Display all grades.\n\n" +
+
+                        "21. Add new student.\n" +
+                        "22. Add new assignment.\n" +
+                        "23. Set student's grade for an assignment.\n\n" +
+
+                        "31. Remove an existing student.\n" +
+                        "32. Remove an existing assignment.\n\n" +
+
+                        "4. Update a student.\n" +
+                        "5. Extend assignment deadline.\n" +
+                        "0. Exit\n");
     }
 
     public void displayAllStudents() {
-        for (var student : service.findAllStudents()) {
+        for (Student student : service.findAllStudents()) {
             System.out.println(student);
         }
     }
 
     public void displayAllAssignments() {
-        for (var assignment : service.findAllAssignments()) {
+        for (Assignment assignment : service.findAllAssignments()) {
             System.out.println(assignment);
         }
     }
 
     public void displayAllGrades() {
-        for (var grades : service.findAllGrades()) {
+        for (Grade grades : service.findAllGrades()) {
             System.out.println(grades);
         }
     }
 
     public void addStudent() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Student ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         System.out.println("Student name: ");
-        var name = scanner.nextLine();
+        String name = scanner.nextLine();
 
         System.out.println("Student group: ");
-        var group = scanner.nextInt();
+        int group = scanner.nextInt();
 
         if (service.saveStudent(id, name, group) != 0) {
             System.out.println("Student successfully added!\n");
@@ -68,19 +70,19 @@ public class UI {
     }
 
     public void addAssignment() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Assignment ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         System.out.println("Assignment description: ");
-        var description = scanner.nextLine();
+        String description = scanner.nextLine();
 
         System.out.println("Assignment deadline: ");
-        var deadline = scanner.nextInt();
+        int deadline = scanner.nextInt();
 
         System.out.println("Assignment start week: ");
-        var startWeek = scanner.nextInt();
+        int startWeek = scanner.nextInt();
 
         if (service.saveAssignment(id, description, deadline, startWeek) != 0) {
             System.out.println("Assignment successfully added!\n");
@@ -90,26 +92,26 @@ public class UI {
     }
 
     public void addGrade() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Student ID: ");
-        var studentId = scanner.nextLine();
+        String studentId = scanner.nextLine();
 
         System.out.println("Assignment ID: ");
-        var assignmentId = scanner.nextLine();
+        String assignmentId = scanner.nextLine();
 
         System.out.println("Grade: ");
-        var line = scanner.nextLine();
-        var grade = Double.parseDouble(line);
+        String line = scanner.nextLine();
+        double grade = Double.parseDouble(line);
 
         System.out.println("Assignment hand-in week: ");
         line = scanner.nextLine();
-        var handInWeek = Integer.parseInt(line);
+        int handInWeek = Integer.parseInt(line);
 
         System.out.println("Assignment feedback: ");
-        var feedback = scanner.nextLine();
+        String feedback = scanner.nextLine();
 
-        var result = service.saveGrade(studentId, assignmentId, grade, handInWeek, feedback);
+        int result = service.saveGrade(studentId, assignmentId, grade, handInWeek, feedback);
         if (result == 1) {
             service.createStudentFile(studentId, assignmentId);
             System.out.println("Grade successfully added!\n");
@@ -121,10 +123,10 @@ public class UI {
     }
 
     public void removeStudent() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Student ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         if (service.deleteStudent(id) != 0) {
             System.out.println("Student successfully removed!\n");
@@ -134,10 +136,10 @@ public class UI {
     }
 
     public void removeAssignment() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Assignment ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         if (service.deleteAssignment(id) != 0) {
             System.out.println("Assignment successfully removed!\n");
@@ -147,16 +149,16 @@ public class UI {
     }
 
     public void updateStudent() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Student ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         System.out.println("New student name: ");
-        var newName = scanner.nextLine();
+        String newName = scanner.nextLine();
 
         System.out.println("New student group: ");
-        var newGroup = scanner.nextInt();
+        int newGroup = scanner.nextInt();
 
         if (service.updateStudent(id, newName, newGroup) != 0) {
             System.out.println("Student successfully updated!\n");
@@ -166,13 +168,13 @@ public class UI {
     }
 
     public void extendDeadline() {
-        var scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Assignment ID: ");
-        var id = scanner.nextLine();
+        String id = scanner.nextLine();
 
         System.out.println("Number of weeks: ");
-        var numberOfWeeks = scanner.nextInt();
+        int numberOfWeeks = scanner.nextInt();
 
         if (service.extendDeadline(id, numberOfWeeks) != 0) {
             System.out.println("Deadline extended successfully!\n");
@@ -182,8 +184,8 @@ public class UI {
     }
 
     public void run() {
-        var scanner = new Scanner(System.in);
-        var command = -1;
+        Scanner scanner = new Scanner(System.in);
+        int command = -1;
 
         printMenu();
 
@@ -192,17 +194,38 @@ public class UI {
             command = scanner.nextInt();
 
             switch (command) {
-                case 11 -> displayAllStudents();
-                case 12 -> displayAllAssignments();
-                case 13 -> displayAllGrades();
-                case 21 -> addStudent();
-                case 22 -> addAssignment();
-                case 23 -> addGrade();
-                case 31 -> removeStudent();
-                case 32 -> removeAssignment();
-                case 4 -> updateStudent();
-                case 5 -> extendDeadline();
-                case 0 -> command = 0;
+                case 11:
+                    displayAllStudents();
+                    break;
+                case 12:
+                    displayAllAssignments();
+                    break;
+                case 13:
+                    displayAllGrades();
+                    break;
+                case 21:
+                    addStudent();
+                    break;
+                case 22:
+                    addAssignment();
+                    break;
+                case 23:
+                    addGrade();
+                    break;
+                case 31:
+                    removeStudent();
+                    break;
+                case 32:
+                    removeAssignment();
+                    break;
+                case 4:
+                    updateStudent();
+                    break;
+                case 5:
+                    extendDeadline();
+                    break;
+                case 0:
+                    return;
             }
         }
     }

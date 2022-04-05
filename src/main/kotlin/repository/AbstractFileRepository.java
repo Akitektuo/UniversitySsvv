@@ -24,7 +24,7 @@ public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends Ol
 
     @Override
     public E save(E entity) throws ValidationException {
-        var result = super.save(entity);
+        E result = super.save(entity);
 
         if (result == null) {
             writeToFile(entity);
@@ -35,7 +35,7 @@ public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends Ol
 
     @Override
     public E delete(ID id) {
-        var result = super.delete(id);
+        E result = super.delete(id);
         writeAllToFile();
 
         return result;
@@ -43,7 +43,7 @@ public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends Ol
 
     @Override
     public E update(E entity) {
-        var result = super.update(entity);
+        E result = super.update(entity);
         writeAllToFile();
 
         return result;

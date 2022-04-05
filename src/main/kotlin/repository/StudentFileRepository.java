@@ -14,10 +14,10 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
     }
 
     protected void loadFromFile() {
-        try (var buffer = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             buffer.lines().collect(Collectors.toList()).forEach(line -> {
-                var result = line.split("#");
-                var student = new Student(result[0], result[1], Integer.parseInt(result[2]));
+                String[] result = line.split("#");
+                Student student = new Student(result[0], result[1], Integer.parseInt(result[2]));
                 try {
                     super.save(student);
                 } catch (ValidationException exception) {
@@ -30,7 +30,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
     }
 
     protected void writeToFile(Student student) {
-        try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write(student.getId() + "#" + student.getName() + "#" + student.getGroup() + "\n");
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -38,7 +38,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
     }
 
     protected void writeAllToFile() {
-        try (var writer = new BufferedWriter(new FileWriter(fileName, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
             entities.values().forEach(student -> {
                 try {
                     writer.write(student.getId() + "#" + student.getName() + "#" + student.getGroup() + "\n");

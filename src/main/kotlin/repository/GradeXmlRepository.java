@@ -2,6 +2,7 @@ package repository;
 
 import domain.Grade;
 import domain.Pair;
+import domain.Student;
 import validation.OldStudentValidator;
 import validation.AssignmentValidator;
 import validation.Validator;
@@ -20,7 +21,7 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
     }
 
     protected Element getElementFromEntity(Grade grade, Document xmlDocument) {
-        var element = xmlDocument.createElement("nota");
+        Element element = xmlDocument.createElement("nota");
         element.setAttribute("IDStudent", grade.getId().getFirst());
         element.setAttribute("IDTema", grade.getId().getSecond());
 
@@ -32,24 +33,24 @@ public class GradeXmlRepository extends AbstractXmlRepository<Pair<String, Strin
     }
 
     protected Grade getEntityFromNode(Element node) {
-        var studentId = node.getAttributeNode("IDStudent").getValue();
-        var assignmentId= node.getAttributeNode("IDTema").getValue();
-        var grade = Double.parseDouble(node.getElementsByTagName("Nota").item(0).getTextContent());
-        var deadline = Integer.parseInt(node.getElementsByTagName("SaptamanaPredare").item(0).getTextContent());
-        var feedback = node.getElementsByTagName("Feedback").item(0).getTextContent();
+        String studentId = node.getAttributeNode("IDStudent").getValue();
+        String assignmentId= node.getAttributeNode("IDTema").getValue();
+        double grade = Double.parseDouble(node.getElementsByTagName("Nota").item(0).getTextContent());
+        int deadline = Integer.parseInt(node.getElementsByTagName("SaptamanaPredare").item(0).getTextContent());
+        String feedback = node.getElementsByTagName("Feedback").item(0).getTextContent();
 
         return new Grade(new Pair<>(studentId, assignmentId), grade, deadline, feedback);
     }
 
     public void createFile(Grade grade) {
-        var studentId = grade.getId().getFirst();
-        var studentValidator = new OldStudentValidator();
-        var assignmentValidator = new AssignmentValidator();
-        var studentRepository = new StudentFileRepository(studentValidator, "studenti.txt");
-        var assignmentRepository = new AssignmentFileRepository(assignmentValidator, "teme.txt");
+        String studentId = grade.getId().getFirst();
+        OldStudentValidator studentValidator = new OldStudentValidator();
+        AssignmentValidator assignmentValidator = new AssignmentValidator();
+        StudentFileRepository studentRepository = new StudentFileRepository(studentValidator, "studenti.txt");
+        AssignmentFileRepository assignmentRepository = new AssignmentFileRepository(assignmentValidator, "teme.txt");
 
-        var student = studentRepository.findOne(studentId);
-        try (var writter = new BufferedWriter(new FileWriter(student.getName() + ".txt", false))) {
+        Student student = studentRepository.findOne(studentId);
+        try (BufferedWriter writter = new BufferedWriter(new FileWriter(student.getName() + ".txt", false))) {
             findAll().forEach(gradeElement -> {
                 if (!gradeElement.getId().getFirst().equals(studentId)) {
                     return;

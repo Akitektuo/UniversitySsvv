@@ -31,7 +31,7 @@ public class Pair<T, V> {
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Pair)) return false;
-        var pair = (Pair<T, V>) other;
+        Pair<T, V> pair = (Pair<T, V>) other;
         return first.equals(pair.first) && second.equals(pair.second);
     }
 

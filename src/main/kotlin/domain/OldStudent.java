@@ -49,7 +49,7 @@ public class OldStudent implements HasID<String> {
         if (this == other) return true;
         if (!(other instanceof Student)) return false;
 
-        var student = (Student) other;
+        Student student = (Student) other;
         return id.equals(student.getId());
     }
 

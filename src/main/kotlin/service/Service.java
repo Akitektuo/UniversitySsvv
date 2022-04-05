@@ -32,8 +32,8 @@ public class Service {
     public Iterable<Grade> findAllGrades() { return gradeXmlRepository.findAll(); }
 
     public int saveStudent(String id, String name, int group) {
-        var student = new Student(id, name, group);
-        var result = studentXmlRepository.save(student);
+        Student student = new Student(id, name, group);
+        Student result = studentXmlRepository.save(student);
 
         if (result == null) {
             return 1;
@@ -42,8 +42,8 @@ public class Service {
     }
 
     public int saveAssignment(String id, String description, int deadline, int startWeek) {
-        var assignment = new Assignment(id, description, deadline, startWeek);
-        var result = assignmentXmlRepository.save(assignment);
+        Assignment assignment = new Assignment(id, description, deadline, startWeek);
+        Assignment result = assignmentXmlRepository.save(assignment);
 
         if (result == null) {
             return 1;
@@ -62,8 +62,8 @@ public class Service {
         } else {
             grade = grade - 2.5 * (deliveryWeek - deadline);
         }
-        var nota = new Grade(new Pair<>(studentId, assignmentId), grade, deliveryWeek, feedback);
-        var result = gradeXmlRepository.save(nota);
+        Grade nota = new Grade(new Pair<>(studentId, assignmentId), grade, deliveryWeek, feedback);
+        Grade result = gradeXmlRepository.save(nota);
 
         if (result == null) {
             return 1;
@@ -72,7 +72,7 @@ public class Service {
     }
 
     public int deleteStudent(String id) {
-        var result = studentXmlRepository.delete(id);
+        Student result = studentXmlRepository.delete(id);
 
         if (result == null) {
             return 0;
@@ -81,7 +81,7 @@ public class Service {
     }
 
     public int deleteAssignment(String id) {
-        var result = assignmentXmlRepository.delete(id);
+        Assignment result = assignmentXmlRepository.delete(id);
 
         if (result == null) {
             return 0;
@@ -90,8 +90,8 @@ public class Service {
     }
 
     public int updateStudent(String id, String newName, int newGroup) {
-        var newStudent = new Student(id, newName, newGroup);
-        var result = studentXmlRepository.update(newStudent);
+        Student newStudent = new Student(id, newName, newGroup);
+        Student result = studentXmlRepository.update(newStudent);
 
         if (result == null) {
             return 0;
@@ -100,8 +100,8 @@ public class Service {
     }
 
     public int updateAssignment(String id, String newDescription, int newDeadline, int newStartWeek) {
-        var assignment = new Assignment(id, newDescription, newDeadline, newStartWeek);
-        var result = assignmentXmlRepository.update(assignment);
+        Assignment assignment = new Assignment(id, newDescription, newDeadline, newStartWeek);
+        Assignment result = assignmentXmlRepository.update(assignment);
 
         if (result == null) {
             return 0;
@@ -110,11 +110,11 @@ public class Service {
     }
 
     public int extendDeadline(String id, int numberOfWeeks) {
-        var assignment = assignmentXmlRepository.findOne(id);
+        Assignment assignment = assignmentXmlRepository.findOne(id);
 
         if (assignment != null) {
-            var date = LocalDate.now();
-            var weekFields = WeekFields.of(Locale.getDefault());
+            LocalDate date = LocalDate.now();
+            WeekFields weekFields = WeekFields.of(Locale.getDefault());
             int currentWeek = date.get(weekFields.weekOfWeekBasedYear());
 
             if (currentWeek >= 39) {
@@ -124,7 +124,7 @@ public class Service {
             }
 
             if (currentWeek <= assignment.getDeadline()) {
-                var deadlineNou = assignment.getDeadline() + numberOfWeeks;
+                int deadlineNou = assignment.getDeadline() + numberOfWeeks;
                 return updateAssignment(assignment.getId(), assignment.getDescription(), deadlineNou, assignment.getStartWeek());
             }
         }
@@ -132,7 +132,7 @@ public class Service {
     }
 
     public void createStudentFile(String studentId, String assignmentId) {
-        var nota = gradeXmlRepository.findOne(new Pair<>(studentId, assignmentId));
+        Grade nota = gradeXmlRepository.findOne(new Pair<>(studentId, assignmentId));
 
         gradeXmlRepository.createFile(nota);
     }

@@ -48,7 +48,7 @@ public class Assignment implements HasID<String> {
         if (this == other) return true;
         if (!(other instanceof Assignment)) return false;
 
-        var assignment = (Assignment) other;
+        Assignment assignment = (Assignment) other;
         return id.equals(assignment.id);
     }
 

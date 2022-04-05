@@ -24,10 +24,10 @@ public class AssignmentXmlRepository extends AbstractXmlRepository<String, Assig
     }
 
     protected Assignment getEntityFromNode(Element node) {
-        var id = node.getAttributeNode("ID").getValue();
-        var description = node.getElementsByTagName("Descriere").item(0).getTextContent();
-        var deadline = Integer.parseInt(node.getElementsByTagName("Deadline").item(0).getTextContent());
-        var weekStart = Integer.parseInt(node.getElementsByTagName("Startline").item(0).getTextContent());
+        String id = node.getAttributeNode("ID").getValue();
+        String description = node.getElementsByTagName("Descriere").item(0).getTextContent();
+        int deadline = Integer.parseInt(node.getElementsByTagName("Deadline").item(0).getTextContent());
+        int weekStart = Integer.parseInt(node.getElementsByTagName("Startline").item(0).getTextContent());
 
         return new Assignment(id, description, deadline, weekStart);
     }
