@@ -53,13 +53,13 @@ public class UI {
     public void addStudent() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Student ID: ");
+        System.out.print("Student ID: ");
         String id = scanner.nextLine();
 
-        System.out.println("Student name: ");
+        System.out.print("Student name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Student group: ");
+        System.out.print("Student group: ");
         int group = scanner.nextInt();
 
         if (service.saveStudent(id, name, group) != 0) {
@@ -72,16 +72,16 @@ public class UI {
     public void addAssignment() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Assignment ID: ");
+        System.out.print("Assignment ID: ");
         String id = scanner.nextLine();
 
-        System.out.println("Assignment description: ");
+        System.out.print("Assignment description: ");
         String description = scanner.nextLine();
 
-        System.out.println("Assignment deadline: ");
+        System.out.print("Assignment deadline: ");
         int deadline = scanner.nextInt();
 
-        System.out.println("Assignment start week: ");
+        System.out.print("Assignment start week: ");
         int startWeek = scanner.nextInt();
 
         if (service.saveAssignment(id, description, deadline, startWeek) != 0) {
@@ -94,21 +94,21 @@ public class UI {
     public void addGrade() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Student ID: ");
+        System.out.print("Student ID: ");
         String studentId = scanner.nextLine();
 
-        System.out.println("Assignment ID: ");
+        System.out.print("Assignment ID: ");
         String assignmentId = scanner.nextLine();
 
-        System.out.println("Grade: ");
+        System.out.print("Grade: ");
         String line = scanner.nextLine();
         double grade = Double.parseDouble(line);
 
-        System.out.println("Assignment hand-in week: ");
+        System.out.print("Assignment hand-in week: ");
         line = scanner.nextLine();
         int handInWeek = Integer.parseInt(line);
 
-        System.out.println("Assignment feedback: ");
+        System.out.print("Assignment feedback: ");
         String feedback = scanner.nextLine();
 
         int result = service.saveGrade(studentId, assignmentId, grade, handInWeek, feedback);
@@ -125,7 +125,7 @@ public class UI {
     public void removeStudent() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Student ID: ");
+        System.out.print("Student ID: ");
         String id = scanner.nextLine();
 
         if (service.deleteStudent(id) != 0) {
@@ -138,7 +138,7 @@ public class UI {
     public void removeAssignment() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Assignment ID: ");
+        System.out.print("Assignment ID: ");
         String id = scanner.nextLine();
 
         if (service.deleteAssignment(id) != 0) {
@@ -151,13 +151,13 @@ public class UI {
     public void updateStudent() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Student ID: ");
+        System.out.print("Student ID: ");
         String id = scanner.nextLine();
 
-        System.out.println("New student name: ");
+        System.out.print("New student name: ");
         String newName = scanner.nextLine();
 
-        System.out.println("New student group: ");
+        System.out.print("New student group: ");
         int newGroup = scanner.nextInt();
 
         if (service.updateStudent(id, newName, newGroup) != 0) {
@@ -170,10 +170,10 @@ public class UI {
     public void extendDeadline() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Assignment ID: ");
+        System.out.print("Assignment ID: ");
         String id = scanner.nextLine();
 
-        System.out.println("Number of weeks: ");
+        System.out.print("Number of weeks: ");
         int numberOfWeeks = scanner.nextInt();
 
         if (service.extendDeadline(id, numberOfWeeks) != 0) {
@@ -190,7 +190,7 @@ public class UI {
         printMenu();
 
         while (command != 0) {
-            System.out.println("> ");
+            System.out.print("> ");
             command = scanner.nextInt();
 
             switch (command) {

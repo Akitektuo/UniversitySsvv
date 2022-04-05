@@ -51,6 +51,20 @@ internal class IntegrationMemoryTests {
     }
 
     @Test
+    fun saveStudentAssignment_validData_savesSameStudentAssignment() {
+        val student = Student("jhgh", "hjsgd", 932)
+        val assignment = Assignment("someId", "some description", 10, 8)
+
+        studentRepository.save(student)
+        assignmentRepository.save(assignment)
+        val savedStudent = studentRepository.findAll().last()
+        val savedAssignment = assignmentRepository.findAll().last()
+
+        assertEquals(student, savedStudent, "The same student was expected")
+        assertEquals(assignment, savedAssignment, "The same assignment was expected")
+    }
+
+    @Test
     fun saveStudentAssignmentGrade_validData_savesSameStudentAssignmentGrade() {
         val student = Student("jhgh", "hjsgd", 932)
         val assignment = Assignment("someId", "some description", 10, 8)
