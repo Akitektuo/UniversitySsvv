@@ -2,8 +2,8 @@ package service;
 
 import domain.Assignment;
 import domain.Grade;
-import domain.Pair;
 import domain.Student;
+import kotlin.Pair;
 import repository.AssignmentXmlRepository;
 import repository.GradeXmlRepository;
 import repository.StudentXmlRepository;

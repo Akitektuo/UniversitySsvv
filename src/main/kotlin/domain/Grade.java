@@ -1,5 +1,7 @@
 package domain;
 
+import kotlin.Pair;
+
 public class Grade implements HasID<Pair<String, String>> {
     Pair<String, String> id;
     private double grade;

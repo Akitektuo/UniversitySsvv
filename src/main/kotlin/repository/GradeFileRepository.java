@@ -1,7 +1,7 @@
 package repository;
 
 import domain.Grade;
-import domain.Pair;
+import kotlin.Pair;
 import validation.ValidationException;
 import validation.Validator;
 

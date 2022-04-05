@@ -1,8 +1,8 @@
 package repository;
 
 import domain.Grade;
-import domain.Pair;
 import domain.Student;
+import kotlin.Pair;
 import validation.OldStudentValidator;
 import validation.AssignmentValidator;
 import validation.Validator;
